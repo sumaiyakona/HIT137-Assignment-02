@@ -1,0 +1,32 @@
+from transformers import AutoTokenizer
+import collections
+
+# Function to count unique tokens and return the top 30
+def count_tokens_in_text(file_path, model_name='bert-base-uncased'):
+    # Load the pre-trained tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+    # Read the text file
+    with open(file_path, 'r') as f:
+        text = f.read()
+
+    # Tokenize the text
+    tokens = tokenizer.tokenize(text)
+
+    # Count the frequency of each token
+    token_count = collections.Counter(tokens)
+
+    # Get the top 30 most frequent tokens
+    top_30_tokens = token_count.most_common(30)
+
+    return top_30_tokens
+
+# Path to your text file
+text_file_path = 'combined_text_output.txt' 
+
+# Call the function to get the top 30 tokens
+top_30_tokens = count_tokens_in_text(text_file_path)
+
+# Display the top 30 tokens and their counts
+for token, count in top_30_tokens:
+    print(f"Token: {token}, Count: {count}")
