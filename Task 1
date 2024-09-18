@@ -1,0 +1,29 @@
+import pandas as pd
+import os
+
+# List of CSV files
+csv_files = ['CSV1.csv', 'CSV2.csv', 'CSV3.csv', 'CSV4.csv']
+
+# Output file
+output_file = 'combined_TEXT_output.txt'
+
+# List to store TEXT data
+TEXT_data = []
+
+# Iterate through each CSV file and extract the 'TEXT' column
+for file in csv_files:
+    try:
+        df = pd.read_csv(file)
+        if 'TEXT' in df.columns:
+            TEXT_data.extend(df['TEXT'].dropna().tolist())  # Append non-empty TEXT data
+        else:
+            print(f"'TEXT' column not found in {file}")
+    except Exception as e:
+        print(f"Error processing {file}: {e}")
+
+# Write the combined TEXT data into a single .txt file
+with open(output_file, 'w') as f:
+    for line in TEXT_data:
+        f.write(f"{line}\n")
+
+print(f"Data has been written to {output_file}")
